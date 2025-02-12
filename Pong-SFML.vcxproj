@@ -141,6 +141,8 @@
     <ClCompile Include="Source\Gameplay\Boundary\Boundary.cpp" />
     <ClCompile Include="Source\Gameplay\GameplayManager.cpp" />
     <ClCompile Include="Source\Gameplay\Paddle.cpp" />
+    <ClCompile Include="Source\Sounds\SoundManager.cpp" />
+    <ClCompile Include="Source\UI\UIService.cpp" />
     <ClCompile Include="Source\Utility\TimeService.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -151,6 +153,8 @@
     <ClInclude Include="Header\Gameplay\Boundary\Boundary.h" />
     <ClInclude Include="Header\Gameplay\GameplayManager.h" />
     <ClInclude Include="Header\Gameplay\Paddle.h" />
+    <ClInclude Include="Header\Sounds\SoundManager.h" />
+    <ClInclude Include="Header\UI\UIService.h" />
     <ClInclude Include="Header\Utility\TimeService.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
