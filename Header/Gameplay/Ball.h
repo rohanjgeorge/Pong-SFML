@@ -2,10 +2,12 @@
 #include <SFML/Graphics.hpp>
 #include "../../Header/Gameplay/Paddle.h"
 #include "../../Header/Utility/TimeService.h"
+#include "../../Header/Sounds/SoundManager.h"
 
 using namespace sf;
 using namespace std;
 using namespace Utility;
+using namespace Sound;
 
 
 namespace Gameplay
@@ -28,7 +30,7 @@ namespace Gameplay
         const float scale_y = 0.06f;
 
         const float position_x = 615.0f;
-        const float position_y = 335.0f;
+        const float position_y = 325.0f;
 
         Vector2f velocity;   // Velocity vector for ball movement
         const float ball_speed = 5.0f;
@@ -43,6 +45,9 @@ namespace Gameplay
         const float left_boundary = 0.0f;
         const float right_boundary = 1280.0f;
 
+        bool had_left_collison = false;
+        bool had_right_collison = false;
+
         void loadTexture();
         void initializeVariables();
         void reset();
@@ -51,6 +56,12 @@ namespace Gameplay
     public:
 
         Ball();
+
+        bool isLeftCollisionOccurred();
+        void updateLeftCollisionState(bool value);
+
+        bool isRightCollisionOccurred();
+        void updateRightCollisionState(bool value);
 
         void move(TimeService* timeService);
 

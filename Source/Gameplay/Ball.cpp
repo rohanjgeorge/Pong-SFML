@@ -2,6 +2,7 @@
 
 namespace Gameplay
 {
+    using namespace std;
     Ball::Ball()
     {
         loadTexture();
@@ -60,10 +61,15 @@ namespace Gameplay
     {
         FloatRect ball_bounds = pong_ball_sprite.getGlobalBounds();
 
-        if ((ball_bounds.top <= top_boundary && velocity.y < 0) ||
-            (ball_bounds.top + ball_bounds.height >= bottom_boundary && velocity.y > 0))
+        if (ball_bounds.top <= top_boundary && velocity.y < 0)
         {
             velocity.y = -velocity.y;  // Reverse vertical direction
+            SoundManager::PlaySoundEffect(SoundType::BALL_BOUNCE);
+        }
+        if (ball_bounds.top + ball_bounds.height >= bottom_boundary && velocity.y > 0)
+        {
+            velocity.y = -velocity.y;  // Reverse vertical direction
+            SoundManager::PlaySoundEffect(SoundType::BALL_BOUNCE);
         }
     }
 
@@ -73,18 +79,41 @@ namespace Gameplay
         const RectangleShape& player2Paddle = player2->getPaddleSprite();
 
         FloatRect ball_bounds = pong_ball_sprite.getGlobalBounds();
+
         FloatRect Player1PaddleBounds = player1Paddle.getGlobalBounds();
         FloatRect player2PaddleBounds = player2Paddle.getGlobalBounds();
 
         if (ball_bounds.intersects(Player1PaddleBounds) && velocity.x < 0)
         {
+            SoundManager::PlaySoundEffect(SoundType::BALL_BOUNCE);
             velocity.x = -velocity.x;  // Reverse horizontal direction
         }
 
         if (ball_bounds.intersects(player2PaddleBounds) && velocity.x > 0)
         {
+            SoundManager::PlaySoundEffect(SoundType::BALL_BOUNCE);
             velocity.x = -velocity.x;  // Reverse horizontal direction
         }
+    }
+
+    bool Ball::isLeftCollisionOccurred()
+    {
+        return had_left_collison;
+    }
+
+    void Ball::updateLeftCollisionState(bool value)
+    {
+        had_left_collison = value;
+    }
+
+    bool Ball::isRightCollisionOccurred()
+    {
+        return had_right_collison;
+    }
+
+    void Ball::updateRightCollisionState(bool value)
+    {
+        had_right_collison = value;
     }
 
     void Ball::handleOutofBoundCollision()
@@ -94,10 +123,12 @@ namespace Gameplay
         // Check for out-of-bounds on the left or right boundary
         if (ball_bounds.left <= left_boundary)
         {
+            updateLeftCollisionState(true);
             reset();
         }
         else if (ball_bounds.left + ball_bounds.width >= right_boundary)
         {
+            updateRightCollisionState(true);
             reset();
         }
     }
